@@ -1,10 +1,16 @@
 import { Image, StyleSheet, View } from "react-native";
-import { Stack } from 'expo-router';
+import { Stack,router } from 'expo-router';
 import Text from "@/components/Text";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
+import { useCallback } from "react";
 
 export default function Login() {
+
+  const onRegister = useCallback(()=>{
+    return router.push('/login/registration')
+  },[])
+
   return(
     <>
       <Stack.Screen options={{headerShown:false}} />
@@ -35,7 +41,7 @@ export default function Login() {
             <View style={style.divider} >
               <Text color="textSecondary" >Atau</Text>
             </View>
-            <Button bordered label="Daftar"/>
+            <Button onPress={onRegister} bordered label="Pendaftaran Baru"/>
           </View>
         </View>
       </View>
