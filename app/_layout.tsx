@@ -1,7 +1,8 @@
 import ErrorBoundary from '@/components/Error';
 import Colors from '@/constants/Colors';
+import useSession from '@/hooks/useSession';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack,router } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
@@ -19,11 +20,16 @@ export default function RootLayout() {
     PoppinsBold: require('../assets/fonts/Poppins-Bold.ttf'),
   });
 
+  const {account} = useSession();
+
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
+      if (!account || account == null) {
+        router.replace('/login')
+      }
     }
-  }, [loaded]);
+  }, [account, loaded]);
 
   if (!loaded) {
     return null;
