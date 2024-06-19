@@ -4,11 +4,19 @@ import Text from "@/components/Text";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { useCallback } from "react";
+import useSession from "@/hooks/useSession";
 
 export default function Login() {
 
+  const {setSession} = useSession()
+
   const onRegister = useCallback(()=>{
     return router.push('/login/registration')
+  },[])
+
+  const onLogin = useCallback(()=>{
+    setSession({session:'test'});
+    router.replace('/')
   },[])
 
   return(
@@ -37,9 +45,9 @@ export default function Login() {
               containerStyle={style.input}
               isPassword
             />
-            <Button label="Masuk" style={style.button} />
+            <Button label="Masuk" style={style.button} onPress={onLogin} />
             <View style={style.divider} >
-              <Text color="textSecondary" >Atau</Text>
+              <Text size={12} color="textSecondary" >Atau</Text>
             </View>
             <Button onPress={onRegister} bordered label="Pendaftaran Baru"/>
           </View>

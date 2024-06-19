@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 
 export default function useSession() {
@@ -7,6 +8,12 @@ export default function useSession() {
   const getAccount = useCallback(async () => {
     const session = await AsyncStorage.getItem("session");
     setAccount(session);
+  }, []);
+
+  const onLoggedIn = useCallback(() => {}, []);
+  const onLoggedOut = useCallback(() => {
+    setSession(null);
+    router.replace("/login");
   }, []);
 
   const setSession = useCallback((session: any) => {
@@ -21,5 +28,6 @@ export default function useSession() {
   return {
     account,
     setSession,
+    onLoggedOut,
   };
 }
