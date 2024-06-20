@@ -1,4 +1,3 @@
-import DashboardPageAdministrator from "@/components/DashboardPage/Administrator";
 import DashboardPageProfile from "@/components/DashboardPage/Profile";
 import Text from "@/components/Text";
 import Colors from "@/constants/Colors";
@@ -9,24 +8,13 @@ import { useMemo, version } from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Constants from 'expo-constants';
 import useSWR from "swr";
+import DashboardPage from "@/components/DashboardPage";
 
 export default function Index() {
 
   const {data} = useSWR('/api/users',useFetcher);
-  const {account} = useSession()
 
-  const content = useMemo(()=>{
-    switch (account?.level) {
-      case 'administrator':
-        return <DashboardPageAdministrator/>
-      case 'staff':
-        return <View><Text>administrator</Text></View>
-      case 'user':
-        return <View><Text>administrator</Text></View>
-      default:
-        return <DashboardPageAdministrator/>
-    }
-  },[])
+  const content = useMemo(()=><DashboardPage/>,[])
 
   return (
     <View style={style.container} >

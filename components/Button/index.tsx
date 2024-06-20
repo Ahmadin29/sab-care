@@ -44,7 +44,7 @@ export default function Button (props:ButtonProps){
     }
 
     const propsStyle:ViewStyle = {
-        borderRadius        : props.rounded     ? rounded[props.rounded] : rounded['x-large'],
+        borderRadius        : props.rounded     ? rounded[props.rounded] : rounded['small'],
         backgroundColor     : props.disabled    ? Colors.grey1 : props.color       ? props.bordered ? 'transparent' : Colors[props.color] : props.bordered ? 'transparent' : Colors.primary,
         borderWidth         : props.bordered    ? 1.5 : 0,
         borderColor         : props.color       ? Colors[props.color] : Colors.primary,
