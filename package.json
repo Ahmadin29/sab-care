@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
-    "build:apk" : "npx eas build -p android --profile preview"
+    "build:apk": "npx eas build -p android --profile preview"
   },
   "jest": {
     "preset": "jest-expo"
@@ -41,7 +41,9 @@
     "react-native-svg": "15.2.0",
     "react-native-web": "~0.19.10",
     "swr": "^2.2.5",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "expo-notifications": "~0.28.9",
+    "expo-device": "~6.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
