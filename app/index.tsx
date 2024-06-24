@@ -1,19 +1,12 @@
 import DashboardPageProfile from "@/components/DashboardPage/Profile";
 import Text from "@/components/Text";
 import Colors from "@/constants/Colors";
-import useFetcher from "@/hooks/useFetcher";
-import useSession from "@/hooks/useSession";
-import { router } from "expo-router";
-import { useMemo, version } from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import { useMemo } from "react";
+import { StyleSheet, View } from "react-native";
 import Constants from 'expo-constants';
-import useSWR from "swr";
 import DashboardPage from "@/components/DashboardPage";
 
 export default function Index() {
-
-  // const {data} = useSWR('/api/users',useFetcher);
-
   const content = useMemo(()=><DashboardPage/>,[])
 
   return (

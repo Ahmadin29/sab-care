@@ -23,7 +23,8 @@ export default function Login() {
       email:email,
       password:password,
     }).then(response=>{
-      console.log(response,'asda');
+      setSession(response);
+      router.replace('/')
     }).catch(error=>{      
       if (error.firstMessage) {
         Alert.alert('Perhatian!', error.firstMessage)

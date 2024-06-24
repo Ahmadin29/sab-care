@@ -40,8 +40,8 @@ export default function RootLayout() {
     }
   }, [account, loaded]);
 
-  const onAppLoaded = useCallback(()=>{
-    if (!account || account == null) {
+  const onAppLoaded = useCallback(()=>{    
+    if (!account || !account?.access_token) {
       router.replace('/login')
       return;
     }

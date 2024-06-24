@@ -4,12 +4,10 @@ import { Method } from "axios";
 import {isObject} from 'lodash'
 
 export async function useAPI(method: Method,endpoint: string, parameters?: any,headers?:any) {
-
-  // headers['Content-Type'] = 'multipart/form-data'
-
   const session:any = await AsyncStorage.getItem('session');
-  if (session?.token) {
-    headers['Authorization'] = session.token
+  const token = JSON.parse(session)?.access_token
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`
   }
 
   const urlParams:{endpoint:string,parameters?:any} = {
@@ -71,8 +69,9 @@ export default async function useFetcher(endpoint: string, parameters?: any) {
   const headers:any = {}
 
   const session:any = await AsyncStorage.getItem('session');
-  if (session?.token) {
-    headers['Authorization'] = `Bearer ${session.token}`
+  const token = JSON.parse(session)?.access_token
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`
   }
 
   const url = useUrl({

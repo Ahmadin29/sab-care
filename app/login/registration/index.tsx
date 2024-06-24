@@ -90,7 +90,7 @@ export default function Registration() {
     }
 
     useAPI('POST','/api/register',params).then(response=>{
-      console.log(response,'asda');
+      Alert.alert('Berhasil!',`Berhasil melakukan pendaftaran dengan email ${email}, silahkan login untuk melanjutkan`)
     }).catch(error=>{      
       if (error.firstMessage) {
         Alert.alert('Perhatian!', error.firstMessage)
@@ -163,7 +163,12 @@ export default function Registration() {
         <TouchableOpacity style={style.file} onPress={onDocumentPick} >
           {renderDocument}
         </TouchableOpacity>
-        <Button label="Daftar" style={style.button} onPress={onRegister} />
+        <Button label="Daftar" style={style.button} onPress={()=>{
+          Alert.alert('Perhatian!','Apakah anda yakin untuk melanjutkan pendaftaran dengan data ini?',[
+            {text:'Batalkan'},
+            {text:'Ya, Lanjutkan',onPress:()=>onRegister()}
+          ])
+        }} />
       </View>
     </>
   )

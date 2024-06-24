@@ -6,8 +6,8 @@ export default function useSession() {
   const [account, setAccount] = useState<any>();
 
   const getAccount = useCallback(async () => {
-    const session = await AsyncStorage.getItem("session");
-    setAccount(session);
+    const session:any = await AsyncStorage.getItem("session");
+    setAccount(JSON.parse(session));
   }, []);
 
   const onLoggedIn = useCallback(() => {}, []);
