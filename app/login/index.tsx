@@ -1,12 +1,16 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Alert, Image, StyleSheet, View } from "react-native";
 import { Stack,router } from 'expo-router';
 import Text from "@/components/Text";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import useSession from "@/hooks/useSession";
+import useFetcher, { useAPI } from "@/hooks/useFetcher";
 
 export default function Login() {
+
+  const [email,setEmail] = useState<string>('');
+  const [password,setPassword] = useState<string>('');
 
   const {setSession} = useSession()
 
@@ -15,9 +19,17 @@ export default function Login() {
   },[])
 
   const onLogin = useCallback(()=>{
-    setSession({session:'test'});
-    router.replace('/')
-  },[])
+    useAPI('POST','/api/login',{
+      email:email,
+      password:password,
+    }).then(response=>{
+      console.log(response,'asda');
+    }).catch(error=>{      
+      if (error.firstMessage) {
+        Alert.alert('Perhatian!', error.firstMessage)
+      }
+    })
+  },[email,password])
 
   return(
     <>
@@ -38,12 +50,18 @@ export default function Login() {
             <Input
               label="Alamat Email"
               color='primary'
+              onChangeText={(value)=>{
+                setEmail(value)
+              }}
             />
             <Input
               color='primary'
               label="Password"
               containerStyle={style.input}
               isPassword
+              onChangeText={(value)=>{
+                setPassword(value)
+              }}
             />
             <Button label="Masuk" style={style.button} onPress={onLogin} />
             <View style={style.divider} >

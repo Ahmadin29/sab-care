@@ -12,7 +12,7 @@ import DashboardPage from "@/components/DashboardPage";
 
 export default function Index() {
 
-  const {data} = useSWR('/api/users',useFetcher);
+  // const {data} = useSWR('/api/users',useFetcher);
 
   const content = useMemo(()=><DashboardPage/>,[])
 
