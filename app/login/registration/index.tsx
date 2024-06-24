@@ -12,6 +12,7 @@ import { useAPI } from "@/hooks/useFetcher";
 
 export default function Registration() {
 
+  const [loading,setLoading] = useState<boolean>(false);
   const [name,setName] = useState<string>("");
   const [email,setEmail] = useState<string>("");
   const [phone,setPhone] = useState<string>("");
@@ -89,12 +90,18 @@ export default function Registration() {
       ktp_photo:document,
     }
 
+    setLoading(true)
     useAPI('POST','/api/register',params).then(response=>{
+      setLoading(false);
       Alert.alert('Berhasil!',`Berhasil melakukan pendaftaran dengan email ${email}, silahkan login untuk melanjutkan`)
-    }).catch(error=>{      
+    }).catch(error=>{   
+      setLoading(false);
       if (error.firstMessage) {
-        Alert.alert('Perhatian!', error.firstMessage)
+        Alert.alert('Perhatian!', error.firstMessage);
+        return;
       }
+
+      Alert.alert('Perhatian!', 'Gagal untuk melakukan pendaftaran, harap hubungi petugas')
     })
     
   },[name,email,password,confirmPassword,phone,address,documentNumber,document])
@@ -163,7 +170,7 @@ export default function Registration() {
         <TouchableOpacity style={style.file} onPress={onDocumentPick} >
           {renderDocument}
         </TouchableOpacity>
-        <Button label="Daftar" style={style.button} onPress={()=>{
+        <Button loading={loading} label="Daftar" style={style.button} onPress={()=>{
           Alert.alert('Perhatian!','Apakah anda yakin untuk melanjutkan pendaftaran dengan data ini?',[
             {text:'Batalkan'},
             {text:'Ya, Lanjutkan',onPress:()=>onRegister()}

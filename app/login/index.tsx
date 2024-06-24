@@ -11,6 +11,7 @@ export default function Login() {
 
   const [email,setEmail] = useState<string>('');
   const [password,setPassword] = useState<string>('');
+  const [loading,setLoading] = useState<boolean>(false);
 
   const {setSession} = useSession()
 
@@ -19,16 +20,24 @@ export default function Login() {
   },[])
 
   const onLogin = useCallback(()=>{
+    setLoading(true);
+
     useAPI('POST','/api/login',{
       email:email,
       password:password,
     }).then(response=>{
+      setLoading(false);
       setSession(response);
-      router.replace('/')
-    }).catch(error=>{      
+      router.replace('/');
+    }).catch(error=>{     
+      setLoading(false);
+
       if (error.firstMessage) {
         Alert.alert('Perhatian!', error.firstMessage)
+        return;
       }
+
+      Alert.alert('Perhatian!', 'Gagal untuk login, pastikan akun kamu aktif')
     })
   },[email,password])
 
@@ -64,7 +73,7 @@ export default function Login() {
                 setPassword(value)
               }}
             />
-            <Button label="Masuk" style={style.button} onPress={onLogin} />
+            <Button loading={loading} label="Masuk" style={style.button} onPress={onLogin} />
             <View style={style.divider} >
               <Text size={12} color="textSecondary" >Atau</Text>
             </View>
