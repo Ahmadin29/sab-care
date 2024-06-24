@@ -44,7 +44,8 @@
     "react-native-svg": "15.2.0",
     "react-native-web": "~0.19.10",
     "swr": "^2.2.5",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "expo-document-picker": "~12.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

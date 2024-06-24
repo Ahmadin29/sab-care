@@ -23,7 +23,8 @@
       "package": "com.ahmadd29.sabcare"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-document-picker"
     ],
     "experiments": {
       "typedRoutes": true
