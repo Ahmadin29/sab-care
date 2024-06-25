@@ -14,5 +14,5 @@ export default function useUrl({ endpoint, parameters }: Props) {
     });
   }
 
-  return `${API_URL}${endpoint}?${params}`;
+  return `${API_URL}${endpoint}${params ? `?${params}` : ''}`;
 }

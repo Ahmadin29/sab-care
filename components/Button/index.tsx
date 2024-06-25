@@ -18,6 +18,7 @@ interface ButtonProps {
     disabled?    : boolean,
     left?        : boolean,
     loading?     : boolean,
+    children?    : any
 }
 
 export default function Button (props:ButtonProps){
@@ -66,8 +67,8 @@ export default function Button (props:ButtonProps){
             <TouchableOpacity
                 {...props}
                 style={[
-                    props.style,
                     propsStyle,
+                    props.style,
                 ]}
                 onPress={props.onPress}
             >
@@ -82,7 +83,7 @@ export default function Button (props:ButtonProps){
                 }
                 {
                     !props.loading ?
-                    <Text style={{marginTop:-3}} color={textColor} size={fontSize} weight="Medium" >{props.label}</Text> :
+                    props.children || <Text style={{marginTop:-3}} color={textColor} size={fontSize} weight="Medium" >{props.label}</Text> :
                     <ActivityIndicator size={20} color={Colors.white} />
                 }
             </TouchableOpacity>

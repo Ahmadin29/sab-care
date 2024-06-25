@@ -2,16 +2,26 @@ import Text from "@/components/Text";
 import Colors from "@/constants/Colors";
 import Layouts from "@/constants/Layouts";
 import useSession from "@/hooks/useSession";
+import { router } from "expo-router";
 import { Additem, Bill, BoxAdd, CardAdd, LocationAdd, Logout, LogoutCurve, NoteRemove, NoteSquare, NoteText, Setting2, UserSearch, UserTick } from "iconsax-react-native";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
 
-const ALL_MENU = [
+type MenuProps = {
+  label:any,
+  allowed?:string[],
+  icon:any,
+  onPress?:()=>void,
+  style:any,
+  route?:string,
+}
+
+const ALL_MENU:MenuProps[] = [
   {
     label:'Laporan Bulanan',
     icon:<NoteText size={100} color={Colors.white} variant="Bulk" />,
     route:'/report',
-    allowed:['administrator'],
+    allowed:['admin'],
     style:{
       backgroundColor:Colors.primary,
       color:Colors.white
@@ -20,8 +30,8 @@ const ALL_MENU = [
   {
     label:'Teknisi',
     icon:<Setting2 size={100} color={Colors.white} variant="Bulk" />,
-    route:'/staff',
-    allowed:['administrator'],
+    route:'/technician',
+    allowed:['admin'],
     style:{
       backgroundColor:Colors.secondary,
       color:Colors.white
@@ -31,7 +41,7 @@ const ALL_MENU = [
     label:'Pelanggan',
     icon:<UserTick size={100} color={Colors.white} variant="Bulk" />,
     route:'/users',
-    allowed:['administrator'],
+    allowed:['admin'],
     style:{
       backgroundColor:Colors.warning,
       color:Colors.white
@@ -41,7 +51,7 @@ const ALL_MENU = [
     label:'Tugas Pemasangan',
     icon:<LocationAdd size={100} color={Colors.white} variant="Bulk" />,
     route:'/task',
-    allowed:['staff'],
+    allowed:['technician'],
     style:{
       backgroundColor:Colors.warning,
       color:Colors.white
@@ -51,7 +61,7 @@ const ALL_MENU = [
     label:'Tagihan',
     icon:<Bill size={100} color={Colors.white} variant="Bulk" />,
     route:'/users',
-    allowed:['user'],
+    allowed:['customer'],
     style:{
       backgroundColor:Colors.primary,
       color:Colors.white
@@ -59,22 +69,14 @@ const ALL_MENU = [
   },
 ]
 
-type MenuProps = {
-  label:any,
-  allowed?:string[],
-  icon:any,
-  onPress?:()=>void,
-  style:any,
-}
-
 export default function DashboardPage() {
 
-  const {account,onLoggedOut} = useSession();
-  const role = account?.role || 'user';
+  const {account,onLoggedOut} = useSession();  
+  const role = account?.role || 'administrator';
 
   const allowedMenu = useMemo(()=>{
-    return ALL_MENU.filter(menu=>menu.allowed.includes(role))
-  },[])
+    return ALL_MENU.filter(menu=>menu.allowed?.includes(role))
+  },[role])
 
   const MENU:MenuProps[] = [
     ...allowedMenu,
@@ -109,6 +111,7 @@ export default function DashboardPage() {
           item.onPress();
           return;
         }
+        router.navigate(item.route as string)
       }} >
         <View style={styles.itemIcon} >
           {item.icon}
@@ -116,7 +119,7 @@ export default function DashboardPage() {
         <Text size={18} weight="Medium" color="white" >{item.label}</Text>
       </TouchableOpacity>
     ))
-  },[])
+  },[MENU])
 
   return(
     <View style={styles.container} >

@@ -31,16 +31,19 @@ export default function RootLayout() {
   });
 
   const {registerForPushNotificationsAsync} = usePushNotification()
-  const {account} = useSession();
+  const {getAccount} = useSession();
 
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
       onAppLoaded()
     }
-  }, [account, loaded]);
+  }, [loaded]);
 
-  const onAppLoaded = useCallback(()=>{    
+  const onAppLoaded = useCallback(async()=>{  
+
+    const account = await getAccount();    
+    
     if (!account || !account?.access_token) {
       router.replace('/login')
       return;
@@ -51,7 +54,7 @@ export default function RootLayout() {
     }).catch(e=>{
       console.log(e);
     })
-  },[account])
+  },[getAccount])
 
   if (!loaded) {
     return null;
@@ -63,6 +66,7 @@ export default function RootLayout() {
         <StatusBar translucent={false} backgroundColor={Colors.primary} style='light' />
         <Stack>
           <Stack.Screen name="index" options={{headerShown:false}} />
+          <Stack.Screen name="technician" options={{headerShown:false}} />
         </Stack>
       </ErrorBoundary>
     </View>

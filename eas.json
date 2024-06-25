@@ -11,9 +11,16 @@
       "distribution": "internal",
       "android": {
         "buildType": "apk"
+      },
+      "env":{
+        "EXPO_PUBLIC_API_URL":"https://api-sabcare.reviu.cloud"
       }
     },
-    "production": {}
+    "production": {
+      "env":{
+        "EXPO_PUBLIC_API_URL":"https://api-sabcare.reviu.cloud"
+      }
+    }
   },
   "submit": {
     "production": {}

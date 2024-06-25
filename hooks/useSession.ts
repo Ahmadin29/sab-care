@@ -1,16 +1,18 @@
+import { accountModel } from "@/models/account";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export default function useSession() {
-  const [account, setAccount] = useState<any>();
+
+  const [account,setAccount] = useState<any>()
 
   const getAccount = useCallback(async () => {
     const session:any = await AsyncStorage.getItem("session");
-    setAccount(JSON.parse(session));
+    setAccount(accountModel(JSON.parse(session)))
+    return accountModel(JSON.parse(session))
   }, []);
 
-  const onLoggedIn = useCallback(() => {}, []);
   const onLoggedOut = useCallback(() => {
     setSession(null);
     router.replace("/login");
@@ -21,12 +23,13 @@ export default function useSession() {
     AsyncStorage.setItem("session", data);
   }, []);
 
-  useEffect(() => {
-    getAccount();
-  }, [getAccount]);
+  useEffect(()=>{
+    getAccount()
+  },[])
 
   return {
     account,
+    getAccount,
     setSession,
     onLoggedOut,
   };

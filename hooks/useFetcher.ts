@@ -1,11 +1,33 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useUrl from "./useUrl";
 import { Method } from "axios";
-import {isObject} from 'lodash'
+import {isObject} from 'lodash';
 
-export async function useAPI(method: Method,endpoint: string, parameters?: any,headers?:any) {
+export class ApiEndpoint {
+  _pathname: string;
+  searchParams: URLSearchParams;
+
+  constructor(pathname: string) {
+    this._pathname = pathname;
+    this.searchParams = new URLSearchParams();
+  }
+
+  get href() {
+    return `${this._pathname}${
+      this._pathname.includes("?") ? "&" : "?"
+    }${this.searchParams.toString()}`;
+  }
+}
+
+export async function useAPI(method: Method,endpoint: string, parameters?: any,headersParams?:any) {
+
+  let headers = {
+    ...headersParams,
+  }
+
   const session:any = await AsyncStorage.getItem('session');
   const token = JSON.parse(session)?.access_token
+  
   if (token) {
     headers['Authorization'] = `Bearer ${token}`
   }
@@ -33,7 +55,7 @@ export async function useAPI(method: Method,endpoint: string, parameters?: any,h
     const res = await fetch(url, {
       headers: headers,
       method: method || 'GET',
-      body: data,
+      body:method === 'POST' ? data : undefined,
     });
 
     const response = await res.json();
@@ -41,7 +63,7 @@ export async function useAPI(method: Method,endpoint: string, parameters?: any,h
     if (response.status !== 'success') {
       throw response
     }
-    console.info('API-RESPONSE',response,'\n');
+    // console.info('API-RESPONSE',response,'\n');
     return response;
   } catch (error: any) {
     let firstMessage = error.message;    
@@ -69,32 +91,32 @@ export default async function useFetcher(endpoint: string, parameters?: any) {
   const headers:any = {}
 
   const session:any = await AsyncStorage.getItem('session');
-  const token = JSON.parse(session)?.access_token
+  const token = JSON.parse(session)?.access_token;
+  
   if (token) {
     headers['Authorization'] = `Bearer ${token}`
   }
 
   const url = useUrl({
     endpoint,
-    parameters,
   });
 
-  console.log(url);
-
   try {
+    // console.debug('API-REQUEST',url,parameters,'\n');
+
     const res = await fetch(url, {
       headers,
     });
     const response = await res.json();
     
-    if (response.status) {
+    if (response.status !== 'success') {
       throw new Error(JSON.stringify(response))
     }
     
-    console.info('API-RESPONSE',response);
+    // console.info('API-RESPONSE',response);
     return response;
   } catch (error: any) {
     console.error(error);
-    return error.status || "500";
+    return error;
   }
 }
