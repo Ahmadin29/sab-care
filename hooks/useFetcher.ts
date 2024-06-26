@@ -40,12 +40,15 @@ export async function useAPI(method: Method,endpoint: string, parameters?: any,h
     urlParams['parameters'] = parameters;
   }
 
-  const data = new FormData();
+  let data:any
 
   if (method === 'POST') {
+    data = new FormData();
     Object.keys(parameters).forEach(key=>{
       data.append(key,parameters[key])
     })
+  }else if (method === 'PATCH') {
+    data = JSON.stringify(parameters)
   }
 
   const url = useUrl(urlParams);
@@ -55,7 +58,7 @@ export async function useAPI(method: Method,endpoint: string, parameters?: any,h
     const res = await fetch(url, {
       headers: headers,
       method: method || 'GET',
-      body:method === 'POST' ? data : undefined,
+      body:['POST','PATCH'].includes(method) ? data : undefined,
     });
 
     const response = await res.json();

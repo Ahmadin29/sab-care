@@ -49,11 +49,7 @@ export default function RootLayout() {
       return;
     }
 
-    registerForPushNotificationsAsync().then(token=>{
-      console.log(token);
-    }).catch(e=>{
-      console.log(e);
-    })
+    registerForPushNotificationsAsync()
   },[getAccount])
 
   if (!loaded) {

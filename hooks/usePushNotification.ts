@@ -48,7 +48,6 @@ export default function usePushNotification() {
           projectId,
         })
       ).data;
-      console.log(pushTokenString);
       return pushTokenString;
     } catch (e: unknown) {
       console.log(e);

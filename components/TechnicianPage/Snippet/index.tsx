@@ -5,6 +5,9 @@ import { useAPI } from "@/hooks/useFetcher";
 import { Call, Edit, Edit2, PenTool, Trash } from "iconsax-react-native";
 import { useCallback, useState } from "react";
 import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
+import { technicianUrl } from "..";
+import { useSWRConfig } from "swr";
+import { router } from "expo-router";
 
 interface Props {
     item:any
@@ -12,7 +15,8 @@ interface Props {
 
 export default function TechnicianPageSnippet({item}:Props) {
 
-    const [deleted,setDeleted] = useState<boolean>(false)
+    const [deleted,setDeleted] = useState<boolean>(false);
+    const {mutate} = useSWRConfig()
 
     const onDelete = useCallback(()=>{
         Alert.alert('Perhatian','Apakah anda yakin untuk menghapus data ini?',[
@@ -23,7 +27,9 @@ export default function TechnicianPageSnippet({item}:Props) {
                 text:'Ya, Lanjutkan',
                 onPress:()=>{
                     setDeleted(true)
-                    useAPI('DELETE',`/api/technician/${item.id}`).catch(e=>{
+                    useAPI('DELETE',`/api/technician/${item.id}`).then(()=>{
+                        mutate(technicianUrl())
+                    }).catch(e=>{
                         Alert.alert('Terjadi Kesalahan',`Gagal untuk menghapus data ini, ${e.firstMessage}`);
                         setDeleted(false)
                     })
@@ -49,7 +55,7 @@ export default function TechnicianPageSnippet({item}:Props) {
                         <Call size={15} variant="Bulk" color={Colors.primary} />
                     </Button>
                 }
-                <Button bordered rounded="x-large" size="small" style={style.call} >
+                <Button onPress={()=>router.navigate({pathname:'/technician/[id]/edit',params:{id:item.id}})} bordered rounded="x-large" size="small" style={style.call} >
                     <Edit2 size={15} variant="Bulk" color={Colors.primary} />
                 </Button>
                 <Button onPress={onDelete} bordered rounded="x-large" size="small" style={style.call} color="danger" >

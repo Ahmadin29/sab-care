@@ -20,6 +20,7 @@ interface InputProps {
     disabled?        : boolean,
     keyboardType?    : KeyboardTypeOptions,
     isPassword?      : boolean,
+    multiline?       : boolean,
 }
 
 export default function Input(props:InputProps) {
@@ -50,6 +51,7 @@ export default function Input(props:InputProps) {
                 keyboardType={props.keyboardType}
                 editable={!props.disabled}
                 secureTextEntry={props.isPassword}
+                multiline={props.multiline}
             />
             {
                 props.message &&
