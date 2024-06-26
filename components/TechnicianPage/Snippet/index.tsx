@@ -5,7 +5,7 @@ import { useAPI } from "@/hooks/useFetcher";
 import { Call, Edit, Edit2, PenTool, Trash } from "iconsax-react-native";
 import { useCallback, useState } from "react";
 import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
-import { technicianUrl } from "..";
+import { technicianUrl } from "../index";
 import { useSWRConfig } from "swr";
 import { router } from "expo-router";
 
