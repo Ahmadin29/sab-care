@@ -5,10 +5,11 @@ import MapView, { MapPressEvent, Marker } from "react-native-maps";
 import useSession from "@/hooks/useSession";
 import { TickSquare } from "iconsax-react-native";
 import { useCallback, useEffect, useState } from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Alert, Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Layouts from "@/constants/Layouts";
 import useLocation from "@/hooks/useLocation";
 import Button from "@/components/Button";
+import { useAPI } from "@/hooks/useFetcher";
 
 const INITIAL_REGION = {
   latitude: -6.2345251,
@@ -59,11 +60,43 @@ export default function InstallationPageRequest() {
     }
   }, [currentPosition?.coords]);
 
+  const onRequest = useCallback(()=>{
+
+    if (address === '') {
+      Alert.alert('Perhatian','Alamat pemasangan harus di isi!');
+      return;
+    }
+
+    console.log(account);
+    
+
+    const params={
+      address,
+      map_location_url:`https://www.google.com/maps/@${coordinate.latitude},${coordinate.longitude},13.5z`,
+      latitude:coordinate.latitude,
+      longitude:coordinate.longitude,
+      customer_id:account.id
+    }
+
+    useAPI('POST','/api/installation-request',params)
+    .then(response=>{
+      Alert.alert('Berhasil!','Berhasil mengajukan permintaan pemasangan, kami akan segera menghubungi kamu!')
+    }).catch(error=>{
+      if (error.firstMessage) {
+        Alert.alert('Perhatian!', error.firstMessage);
+        return;
+      }
+
+      Alert.alert('Perhatian!', 'Gagal untuk melakukan pengajuan pemasangan, harap hubungi developer')
+    })
+
+  },[address,coordinate,account])
+
   return (
     <View style={styles.container}>
       <View>
         <Input
-          label="Alamat"
+          label="Alamat Lengkap Pemasangan"
           multiline
           value={address}
           onChangeText={(value) => {
@@ -101,7 +134,7 @@ export default function InstallationPageRequest() {
         </MapView>
       </View>
 
-      <Button style={styles.button} label={"Ajikan Pemasangan"} />
+      <Button style={styles.button} label={"Ajikan Pemasangan"} onPress={onRequest} />
     </View>
   );
 }
