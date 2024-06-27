@@ -1,6 +1,6 @@
 import { Alert, Image, ScrollView, StyleSheet, Touchable, TouchableOpacity, View } from "react-native";
 import Text from "@/components/Text";
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import Colors from "@/constants/Colors";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
@@ -93,6 +93,7 @@ export default function Registration() {
     setLoading(true)
     useAPI('POST','/api/register',params).then(response=>{
       setLoading(false);
+      router.navigate('/login')
       Alert.alert('Berhasil!',`Berhasil melakukan pendaftaran dengan email ${email}, silahkan login untuk melanjutkan`)
     }).catch(error=>{   
       setLoading(false);
