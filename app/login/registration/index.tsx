@@ -1,4 +1,4 @@
-import { Alert, Image, StyleSheet, Touchable, TouchableOpacity, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, Touchable, TouchableOpacity, View } from "react-native";
 import Text from "@/components/Text";
 import { Stack } from "expo-router";
 import Colors from "@/constants/Colors";
@@ -109,7 +109,7 @@ export default function Registration() {
   return(
     <>
       <Stack.Screen options={{title:'Pendaftaran Baru'}} />
-      <View style={style.container} >
+      <ScrollView style={style.container} >
         <Input
           label="Nama Lengkap"
           color='primary'
@@ -176,7 +176,7 @@ export default function Registration() {
             {text:'Ya, Lanjutkan',onPress:()=>onRegister()}
           ])
         }} />
-      </View>
+      </ScrollView>
     </>
   )
 }
