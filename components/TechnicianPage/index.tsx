@@ -25,7 +25,7 @@ export default function TechnicianPage() {
 
     if (isLoading) {
         return (
-            <View>
+            <View style={[style.container,style.loading]} >
                 <Text>Tunggu sebentar...</Text>
             </View>
         )
@@ -54,6 +54,11 @@ export default function TechnicianPage() {
 const style = StyleSheet.create({
     container:{
         flex:1,
+    },
+    loading:{
+        alignItems:"center",
+        justifyContent:"center",
+        padding:10,
     },
     fab:{
         padding:15,

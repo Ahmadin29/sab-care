@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "27337026967",
+    "project_id": "balmy-sanctuary-427706-j8",
+    "storage_bucket": "balmy-sanctuary-427706-j8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27337026967:android:f3998a7d1c8a7fa110e8d2",
+        "android_client_info": {
+          "package_name": "com.ahmadd29.sabcare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJhdznr45mG2wQFeXdO20uN_eejerNYgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

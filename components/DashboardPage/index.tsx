@@ -3,9 +3,10 @@ import Colors from "@/constants/Colors";
 import Layouts from "@/constants/Layouts";
 import useSession from "@/hooks/useSession";
 import { router } from "expo-router";
-import { Additem, Bill, BoxAdd, CardAdd, LocationAdd, Logout, LogoutCurve, NoteRemove, NoteSquare, NoteText, Setting2, UserSearch, UserTick } from "iconsax-react-native";
-import { useEffect, useMemo } from "react";
+import { Bill, LocationAdd, LogoutCurve, NoteText, Setting2, UserTick } from "iconsax-react-native";
+import { useMemo } from "react";
 import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
+import Installation from "./Installation";
 
 type MenuProps = {
   label:any,
@@ -63,7 +64,7 @@ const ALL_MENU:MenuProps[] = [
     route:'/users',
     allowed:['customer'],
     style:{
-      backgroundColor:Colors.primary,
+      backgroundColor:Colors.warning,
       color:Colors.white
     }
   },
@@ -119,10 +120,11 @@ export default function DashboardPage() {
         <Text size={18} weight="Medium" color="white" >{item.label}</Text>
       </TouchableOpacity>
     ))
-  },[MENU])
+  },[MENU]);
 
   return(
     <View style={styles.container} >
+      <Installation/>
       {renderMenu}
     </View>
   )

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "sab-care",
+    "name": "SAB Care",
     "slug": "sab-care",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,7 +20,12 @@
         "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ahmadd29.sabcare"
+      "package": "com.ahmadd29.sabcare",
+      "config":{
+        "googleMaps":{
+          "apiKey":"AIzaSyBJhdznr45mG2wQFeXdO20uN_eejerNYgE"
+        }
+      }
     },
     "plugins": [
       "expo-router",

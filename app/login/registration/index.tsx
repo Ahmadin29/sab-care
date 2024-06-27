@@ -108,7 +108,7 @@ export default function Registration() {
 
   return(
     <>
-      <Stack.Screen options={{title:'Pendaftaran Baru'}} />
+      <Stack.Screen options={{title:'Pendaftaran Baru',headerBackTitle:'Kembali'}} />
       <ScrollView style={style.container} >
         <Input
           label="Nama Lengkap"

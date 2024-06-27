@@ -62,9 +62,12 @@ export default function RootLayout() {
         <StatusBar translucent={false} backgroundColor={Colors.primary} style='light' />
         <Stack>
           <Stack.Screen name="index" options={{headerShown:false}} />
+
           <Stack.Screen name="technician/index" options={{title:'Teknisi',headerBackTitle:'Dashboard'}} />
           <Stack.Screen name="technician/[id]/edit" options={{title:'Ubah Teknisi'}} />
           <Stack.Screen name="technician/add" options={{title:'Tambahkan Teknisi'}} />
+
+          <Stack.Screen name="installation/request" options={{title:'Ajukan Pemasangan',headerBackTitle:'Kembali'}} />
         </Stack>
       </ErrorBoundary>
     </View>
