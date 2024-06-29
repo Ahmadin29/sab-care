@@ -9,7 +9,7 @@ import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import useSWR from "swr";
 
-const installationURL = ()=>{
+export const installationURL = ()=>{
     const url  = new ApiEndpoint('/api/installation-request');
     return url.href
 }
@@ -32,8 +32,24 @@ export default function Installation() {
     }
 
     if (isHasInstallation) {
+        const installation = data?.data?.[0];
         return(
-            <Text>asd</Text>
+            <View style={[
+                styles.container,
+                {
+                    backgroundColor:Colors.secondary+22,
+                    borderColor:Colors.secondary,
+                }
+            ]} >
+                <Text style={styles.header} size={18} weight="Medium" >Pemasangan Baru</Text>
+                <Text>Kami sedang memproses pemasangan kamu, pihak kami akan segera menghubungi kamu bila diperlukan.</Text>
+
+                <View style={styles.installation} >
+                    <Text size={15} weight="Medium" >Data Pemasangan</Text>
+                    <Text>Alamat : {installation?.address} </Text>
+                    <Text>Status : {installation?.status} </Text>
+                </View>
+            </View>
         )
     }
 
@@ -64,5 +80,8 @@ const styles = StyleSheet.create({
     },
     button:{
         marginTop:15,
+    },
+    installation:{
+        marginTop:10,
     }
 })

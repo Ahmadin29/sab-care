@@ -51,7 +51,7 @@ const ALL_MENU:MenuProps[] = [
   {
     label:'Tugas Pemasangan',
     icon:<LocationAdd size={100} color={Colors.white} variant="Bulk" />,
-    route:'/task',
+    route:'/installation',
     allowed:['technician'],
     style:{
       backgroundColor:Colors.warning,

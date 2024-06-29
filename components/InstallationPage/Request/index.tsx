@@ -10,6 +10,9 @@ import Layouts from "@/constants/Layouts";
 import useLocation from "@/hooks/useLocation";
 import Button from "@/components/Button";
 import { useAPI } from "@/hooks/useFetcher";
+import { useSWRConfig } from "swr";
+import { installationURL } from "@/components/DashboardPage/Installation";
+import { router } from "expo-router";
 
 const INITIAL_REGION = {
   latitude: -6.2345251,
@@ -21,11 +24,13 @@ const INITIAL_REGION = {
 export default function InstallationPageRequest() {
   const { account } = useSession();
   const { currentPosition, isLocationGranted } = useLocation();
+  const {mutate} = useSWRConfig()
 
   const [useCurrentAddress, setUseCurrentAddress] = useState<boolean>(false);
   const [coordinate, setCoordinate] = useState<any>();
   const [address, setAddress] = useState<string>("");
   const [region, setRegion] = useState<any>();
+  const [loading,setLoading] = useState<boolean>(false)
 
   const onAddressToggle = useCallback(() => {
     setUseCurrentAddress(!useCurrentAddress);
@@ -65,23 +70,25 @@ export default function InstallationPageRequest() {
     if (address === '') {
       Alert.alert('Perhatian','Alamat pemasangan harus di isi!');
       return;
-    }
-
-    console.log(account);
-    
+    }    
 
     const params={
       address,
       map_location_url:`https://www.google.com/maps/@${coordinate.latitude},${coordinate.longitude},13.5z`,
       latitude:coordinate.latitude,
       longitude:coordinate.longitude,
-      customer_id:account.id
     }
 
+    setLoading(true)
     useAPI('POST','/api/installation-request',params)
     .then(response=>{
-      Alert.alert('Berhasil!','Berhasil mengajukan permintaan pemasangan, kami akan segera menghubungi kamu!')
+      setLoading(false)
+      mutate(installationURL()).then(()=>{
+        Alert.alert('Berhasil!','Berhasil mengajukan permintaan pemasangan, kami akan segera menghubungi kamu!');
+        router.back();
+      })
     }).catch(error=>{
+      setLoading(false)
       if (error.firstMessage) {
         Alert.alert('Perhatian!', error.firstMessage);
         return;
@@ -103,7 +110,7 @@ export default function InstallationPageRequest() {
             setAddress(value);
           }}
         />
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.useCurrentMark}
           onPress={onAddressToggle}
         >
@@ -114,7 +121,7 @@ export default function InstallationPageRequest() {
           <Text style={styles.useCurrentMarkText}>
             Gunakan alamat saat pendaftaran
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View style={styles.mapContainer}>
         <Text size={10} weight="Medium">
@@ -134,7 +141,7 @@ export default function InstallationPageRequest() {
         </MapView>
       </View>
 
-      <Button style={styles.button} label={"Ajikan Pemasangan"} onPress={onRequest} />
+      <Button style={styles.button} loading={loading} label={"Ajikan Pemasangan"} onPress={onRequest} />
     </View>
   );
 }

@@ -67,6 +67,7 @@ export default function RootLayout() {
           <Stack.Screen name="technician/[id]/edit" options={{title:'Ubah Teknisi'}} />
           <Stack.Screen name="technician/add" options={{title:'Tambahkan Teknisi'}} />
 
+          <Stack.Screen name="installation/index" options={{title:'Tugas Pemasangan',headerBackTitle:'Kembali'}} />
           <Stack.Screen name="installation/request" options={{title:'Ajukan Pemasangan',headerBackTitle:'Kembali'}} />
         </Stack>
       </ErrorBoundary>
